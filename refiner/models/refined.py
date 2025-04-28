@@ -1,41 +1,46 @@
 from datetime import datetime
-from sqlalchemy import Column, String, Integer, Float, ForeignKey, DateTime
+from sqlalchemy import Column, String, Integer, DateTime
 from sqlalchemy.ext.declarative import declarative_base
-from sqlalchemy.orm import relationship
+import uuid
 
 # Base model for SQLAlchemy
 Base = declarative_base()
 
-# Define database models - the schema is generated using these
-class UserRefined(Base):
-    __tablename__ = 'users'
-    
-    user_id = Column(String, primary_key=True)
-    email = Column(String, nullable=False, unique=True)
-    name = Column(String, nullable=False)
-    locale = Column(String, nullable=False)
-    created_at = Column(DateTime, nullable=False)
-    
-    storage_metrics = relationship("StorageMetric", back_populates="user")
-    auth_sources = relationship("AuthSource", back_populates="user")
 
-class StorageMetric(Base):
-    __tablename__ = 'storage_metrics'
-    
-    metric_id = Column(Integer, primary_key=True, autoincrement=True)
-    user_id = Column(String, ForeignKey('users.user_id'), nullable=False)
-    percent_used = Column(Float, nullable=False)
-    recorded_at = Column(DateTime, nullable=False, default=datetime.utcnow)
-    
-    user = relationship("UserRefined", back_populates="storage_metrics")
+# Define database model for MindCheck
+class MindCheckRefined(Base):
+    __tablename__ = "mind_checks"
 
-class AuthSource(Base):
-    __tablename__ = 'auth_sources'
-    
-    auth_id = Column(Integer, primary_key=True, autoincrement=True)
-    user_id = Column(String, ForeignKey('users.user_id'), nullable=False)
-    source = Column(String, nullable=False)
-    collection_date = Column(DateTime, nullable=False)
-    data_type = Column(String, nullable=False)
-    
-    user = relationship("UserRefined", back_populates="auth_sources")
+    id = Column(String, primary_key=True, default=lambda: str(uuid.uuid4()))
+    created_at = Column(DateTime, nullable=False, default=datetime.utcnow)
+
+    # PANAS ratings
+    interested = Column(Integer, nullable=False)
+    distressed = Column(Integer, nullable=False)
+    excited = Column(Integer, nullable=False)
+    upset = Column(Integer, nullable=False)
+    strong = Column(Integer, nullable=False)
+    guilty = Column(Integer, nullable=False)
+    scared = Column(Integer, nullable=False)
+    hostile = Column(Integer, nullable=False)
+    enthusiastic = Column(Integer, nullable=False)
+    proud = Column(Integer, nullable=False)
+    irritable = Column(Integer, nullable=False)
+    alert = Column(Integer, nullable=False)
+    ashamed = Column(Integer, nullable=False)
+    inspired = Column(Integer, nullable=False)
+    nervous = Column(Integer, nullable=False)
+    determined = Column(Integer, nullable=False)
+    attentive = Column(Integer, nullable=False)
+    jittery = Column(Integer, nullable=False)
+    active = Column(Integer, nullable=False)
+    afraid = Column(Integer, nullable=False)
+
+    # Free text fields
+    best_thing = Column(String(500), nullable=False)
+    worst_thing = Column(String(500), nullable=False)
+
+    # Demographic information
+    location = Column(String, nullable=False)
+    race_ethnicity = Column(String, nullable=False)
+    gender_identity = Column(String, nullable=False)

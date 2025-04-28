@@ -4,7 +4,7 @@ import os
 
 from refiner.models.offchain_schema import OffChainSchema
 from refiner.models.output import Output
-from refiner.transformer.user_transformer import UserTransformer
+from refiner.transformer.mind_check_transformer import MindCheckTransformer
 from refiner.config import settings
 from refiner.utils.encrypt import encrypt_file
 from refiner.utils.ipfs import upload_file_to_ipfs, upload_json_to_ipfs
@@ -26,7 +26,7 @@ class Refiner:
                     input_data = json.load(f)
 
                     # Transform account data
-                    transformer = UserTransformer(self.db_path)
+                    transformer = MindCheckTransformer(self.db_path)
                     transformer.process(input_data)
                     logging.info(f"Transformed {input_filename}")
                     
@@ -50,7 +50,7 @@ class Refiner:
                     # Encrypt and upload the database to IPFS
                     encrypted_path = encrypt_file(settings.REFINEMENT_ENCRYPTION_KEY, self.db_path)
                     ipfs_hash = upload_file_to_ipfs(encrypted_path)
-                    output.refinement_url = f"https://ipfs.vana.org/ipfs/{ipfs_hash}"
+                    output.refinement_url = f"https://turquoise-electrical-canid-936.mypinata.cloud/ipfs/{ipfs_hash}"
                     continue
 
         logging.info("Data transformation completed successfully")

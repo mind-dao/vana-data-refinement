@@ -6,12 +6,12 @@ class Settings(BaseSettings):
     """Global settings configuration using environment variables"""
     
     INPUT_DIR: str = Field(
-        default="/input",
+        default="input",
         description="Directory containing input files to process"
     )
     
     OUTPUT_DIR: str = Field(
-        default="/output",
+        default="output",
         description="Directory where output files will be written"
     )
     
@@ -31,17 +31,17 @@ class Settings(BaseSettings):
     )
     
     SCHEMA_NAME: str = Field(
-        default="Google Drive Analytics",
+        default="Weekly Mind Check",
         description="Name of the schema"
     )
     
     SCHEMA_VERSION: str = Field(
-        default="0.0.1",
+        default="1.0.0",
         description="Version of the schema"
     )
     
     SCHEMA_DESCRIPTION: str = Field(
-        default="Schema for the Google Drive DLP, representing some basic analytics of the Google user",
+        default="Schema for weekly mind check data using the Positive and Negative Affect Schedule (PANAS) and demographic information",
         description="Description of the schema"
     )
     
